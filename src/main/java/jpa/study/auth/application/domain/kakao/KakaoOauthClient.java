@@ -28,6 +28,6 @@ public class KakaoOauthClient {
     }
 
     public KakaoMember fetchMember(String accessToken) {
-        return apiClient.fetchKakaoMember("Bearer" + accessToken);
+        return apiClient.fetchKakaoMember("Bearer " + accessToken);
     }
 }

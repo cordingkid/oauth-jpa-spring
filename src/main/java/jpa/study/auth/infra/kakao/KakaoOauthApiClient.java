@@ -3,7 +3,6 @@ package jpa.study.auth.infra.kakao;
 import jpa.study.auth.infra.kakao.response.KakaoLogoutResponse;
 import jpa.study.auth.infra.kakao.response.KakaoMember;
 import jpa.study.auth.infra.kakao.response.KakaoTokenResponse;
-import org.springframework.http.HttpHeaders;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;

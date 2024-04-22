@@ -10,7 +10,10 @@ public record LoginResult(
         boolean isFirst,
         String accessToken,
         int accessTokenValidTimeDuration,
-        TimeUnit accessTokenValidTimeUnit
+        TimeUnit accessTokenValidTimeUnit,
+        String refreshToken,
+        int refreshTokenValidTimeDuration,
+        TimeUnit refreshTokenValidTimeUnit
 ) {
 
     public static LoginResult of(
@@ -18,7 +21,10 @@ public record LoginResult(
             boolean isFirst,
             String accessToken,
             int accessTokenValidTimeDuration,
-            TimeUnit accessTokenValidTimeUnit
+            TimeUnit accessTokenValidTimeUnit,
+            String refreshToken,
+            int refreshTokenValidTimeDuration,
+            TimeUnit refreshTokenValidTimeUnit
     ){
         return new LoginResult(
                 user.getId(),
@@ -26,7 +32,10 @@ public record LoginResult(
                 isFirst,
                 accessToken,
                 accessTokenValidTimeDuration,
-                accessTokenValidTimeUnit
+                accessTokenValidTimeUnit,
+                refreshToken,
+                refreshTokenValidTimeDuration,
+                refreshTokenValidTimeUnit
         );
     }
 }

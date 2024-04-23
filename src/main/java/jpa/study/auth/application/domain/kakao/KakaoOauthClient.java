@@ -1,6 +1,7 @@
 package jpa.study.auth.application.domain.kakao;
 
 import jpa.study.auth.infra.kakao.KakaoOauthApiClient;
+import jpa.study.auth.infra.kakao.response.KakaoLogoutResponse;
 import jpa.study.auth.infra.kakao.response.KakaoMember;
 import jpa.study.auth.infra.kakao.response.KakaoTokenResponse;
 import lombok.RequiredArgsConstructor;
@@ -12,6 +13,7 @@ import org.springframework.util.MultiValueMap;
 @RequiredArgsConstructor
 public class KakaoOauthClient {
 
+    private static final String TOKEN_TYPE = "Bearer ";
     private final KakaoOauthConfig kakaoOauthConfig;
     private final KakaoOauthApiClient apiClient;
 
@@ -28,6 +30,12 @@ public class KakaoOauthClient {
     }
 
     public KakaoMember fetchMember(String accessToken) {
-        return apiClient.fetchKakaoMember("Bearer " + accessToken);
+        return apiClient.fetchKakaoMember(TOKEN_TYPE + accessToken);
+    }
+
+    public Long logout(String kakaoAccessToken) {
+        String accessToken = TOKEN_TYPE + kakaoAccessToken;
+        KakaoLogoutResponse response = apiClient.logout(accessToken);
+        return response.id();
     }
 }

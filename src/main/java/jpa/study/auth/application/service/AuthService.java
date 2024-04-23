@@ -82,4 +82,11 @@ public class AuthService {
                 jwtManager.getRefreshTokenValidTimeUnit()
         );
     }
+
+    public void logout(Long userId) {
+        User user = userRepository.getById(userId);
+        user.validateHasKakaoAccessToken();
+        kakaoOauthClient.logout(user.getKakaoAccessToken());
+        user.updateKakaoAccessToken("");
+    }
 }

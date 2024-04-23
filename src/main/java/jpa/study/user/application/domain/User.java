@@ -4,8 +4,11 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 import jpa.study.common.BaseEntity;
+import jpa.study.common.exception.CustomException;
+import jpa.study.common.exception.ErrorCode;
 import lombok.*;
 
+import static jpa.study.common.exception.ErrorCode.ALREADY_LOGOUT_EXCEPTION;
 import static lombok.AccessLevel.*;
 
 @Entity
@@ -41,5 +44,15 @@ public class User extends BaseEntity {
                 kakaoAccessToken,
                 false
         );
+    }
+
+    public void validateHasKakaoAccessToken() {
+        if (kakaoAccessToken == null || kakaoAccessToken.isBlank()) {
+            throw new CustomException(ALREADY_LOGOUT_EXCEPTION);
+        }
+    }
+
+    public void updateKakaoAccessToken(String kakaoAccessToken) {
+        this.kakaoAccessToken = kakaoAccessToken;
     }
 }

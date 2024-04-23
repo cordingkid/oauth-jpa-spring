@@ -16,6 +16,7 @@ public enum ErrorCode {
     INVALID_ACCESS(FORBIDDEN, "접근 권한이 존재하지 않습니다."),
     DELETED_USER_EXCEPTION(BAD_REQUEST, "탈퇴한 회원입니다."),
     RESOURCE_NOT_FOUND(NOT_FOUND, "존재하지 않습니다."),
+    ALREADY_LOGOUT_EXCEPTION(BAD_REQUEST, "이미 로그아웃 처리가 된 상태입니다."),
     ;
 
     private final HttpStatus status;

@@ -4,6 +4,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jpa.study.auth.application.dto.LoginResult;
 import jpa.study.auth.application.service.AuthService;
 import jpa.study.auth.presentation.dto.LoginResponse;
+import jpa.study.common.auth.Auth;
 import jpa.study.common.util.TimeUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
@@ -69,8 +70,11 @@ public class AuthController {
                 .body(response);
     }
 
-//    @PatchMapping("/auth/kakao")
-//    ResponseEntity<Void> logout()
+    @PatchMapping("/auth/kakao")
+    ResponseEntity<Void> logout(@Auth Long loginUserId) {
+        authService.logout(loginUserId);
+        return ResponseEntity.noContent().build();
+    }
 
     private ResponseCookie createCookie(
             String name,

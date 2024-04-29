@@ -2,12 +2,13 @@ package jpa.study.auth.presentation;
 
 import jakarta.servlet.http.HttpServletResponse;
 import jpa.study.auth.application.dto.LoginResult;
+import jpa.study.auth.application.dto.ReissueTokenResult;
 import jpa.study.auth.application.service.AuthService;
 import jpa.study.auth.presentation.dto.LoginResponse;
+import jpa.study.auth.presentation.dto.ReissueTokenResponse;
 import jpa.study.common.auth.Auth;
 import jpa.study.common.util.TimeUtils;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,7 +18,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.io.IOException;
 import java.time.Duration;
-import java.util.concurrent.TimeUnit;
 
 import static java.util.concurrent.TimeUnit.SECONDS;
 import static jpa.study.common.util.TimeUtils.convertTimeUnit;
@@ -74,6 +74,27 @@ public class AuthController {
     ResponseEntity<Void> logout(@Auth Long loginUserId) {
         authService.logout(loginUserId);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/auth/token")
+    ResponseEntity<ReissueTokenResponse> reissueToken(@Auth Long userId) {
+        ReissueTokenResult result = authService.reissueToken(userId);
+
+        ResponseCookie accessTokenCookie = createCookie(
+                "accessToken",
+                result.accessToken(),
+                Duration.ofSeconds(
+                        convertTimeUnit(
+                                result.accessTokenValidTimeDuration(),
+                                result.accessTokenValidTimeUnit(),
+                                SECONDS
+                        )
+                ), true, true, "sameSite"
+        );
+
+        return ResponseEntity.ok()
+                .header(SET_COOKIE, accessTokenCookie.toString())
+                .body(new ReissueTokenResponse(result.accessToken()));
     }
 
     private ResponseCookie createCookie(

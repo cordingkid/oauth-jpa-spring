@@ -4,6 +4,7 @@ import jpa.study.auth.application.domain.JwtManager;
 import jpa.study.auth.application.domain.kakao.KakaoOauthClient;
 import jpa.study.auth.application.domain.kakao.KakaoRedirectUriProvider;
 import jpa.study.auth.application.dto.LoginResult;
+import jpa.study.auth.application.dto.ReissueTokenResult;
 import jpa.study.auth.infra.kakao.response.KakaoMember;
 import jpa.study.auth.infra.kakao.response.KakaoTokenResponse;
 import jpa.study.common.exception.CustomException;
@@ -88,5 +89,17 @@ public class AuthService {
         user.validateHasKakaoAccessToken();
         kakaoOauthClient.logout(user.getKakaoAccessToken());
         user.updateKakaoAccessToken("");
+    }
+
+    public ReissueTokenResult reissueToken(Long userId) {
+        User user = userRepository.getById(userId);
+
+        String accessToken = jwtManager.createAccessToken(user.getId());
+
+        return new ReissueTokenResult(
+                accessToken,
+                jwtManager.getAccessTokenValidTimeDuration(),
+                jwtManager.getAccessTokenValidTimeUnit()
+        );
     }
 }

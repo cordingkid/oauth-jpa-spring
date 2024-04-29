@@ -25,7 +25,7 @@ public class TokenReader {
     @Nullable
     public Long readAccessToken(HttpServletRequest request) {
         String authorization = request.getHeader(AUTHORIZATION);
-        if (!hasText(authorization)) {
+        if (hasText(authorization)) {
             return jwtManager.readTokenWithPrefix(authorization);
         }
 
@@ -42,7 +42,6 @@ public class TokenReader {
     }
 
     private boolean isTokenRelatedCookie(String cookieName) {
-        return cookieName.equals("accessToken") ||
-                cookieName.equals("refreshToken");
+        return cookieName.equals("accessToken") || cookieName.equals("refreshToken");
     }
 }

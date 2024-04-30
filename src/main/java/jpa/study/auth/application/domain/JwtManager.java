@@ -1,11 +1,7 @@
 package jpa.study.auth.application.domain;
 
 import io.jsonwebtoken.Jwts;
-import io.netty.buffer.ByteBuf;
-import io.netty.handler.codec.base64.Base64;
-import jpa.study.common.util.TimeUtils;
 import lombok.Getter;
-import org.springframework.util.StringUtils;
 
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
@@ -14,7 +10,6 @@ import java.time.Instant;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
-import static java.nio.charset.StandardCharsets.*;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static jpa.study.common.util.TimeUtils.convertTimeUnit;
 import static org.springframework.util.StringUtils.hasText;
@@ -57,6 +52,7 @@ public class JwtManager {
                 .signWith(secretKey)
                 .issuer(issuer)
                 .issuedAt(now)
+                .subject(String.valueOf(userId))
                 .expiration(
                         new Date(now.getTime()
                                 + convertTimeUnit(accessTokenValidTimeDuration, accessTokenValidTimeUnit, MILLISECONDS))
@@ -82,7 +78,7 @@ public class JwtManager {
     }
 
     public Long readTokenWithPrefix(String token) {
-        if (hasText(token) || !token.startsWith(PREFIX)) {
+        if (!hasText(token) || !token.startsWith(PREFIX)) {
             throw new RuntimeException("유효하지 않는 토큰입니다.");
         }
         token = token.substring(PREFIX.length());
@@ -97,7 +93,7 @@ public class JwtManager {
     }
 
     public Long readTokenWithoutPrefix(String token) {
-        if (hasText(token)) {
+        if (!hasText(token)) {
             throw new RuntimeException("유효하지 않는 토큰입니다.");
         }
 

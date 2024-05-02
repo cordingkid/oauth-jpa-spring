@@ -13,11 +13,9 @@ import static jakarta.persistence.TemporalType.*;
 
 @Getter
 @MappedSuperclass
+@NoArgsConstructor
 @EntityListeners(AuditingEntityListener.class)
 public class BaseEntity {
-
-    @Id @GeneratedValue(strategy = IDENTITY)
-    private Long id;
 
     @CreatedBy
     @Column(updatable = false)
@@ -28,7 +26,5 @@ public class BaseEntity {
     @Temporal(TIMESTAMP)
     private String lastModifiedBy;
 
-    public BaseEntity() {
-    }
 }
 

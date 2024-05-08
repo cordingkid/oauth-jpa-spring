@@ -3,12 +3,13 @@ package jpa.study.post.application.domain;
 import jakarta.persistence.*;
 import jpa.study.common.BaseEntity;
 import jpa.study.common.exception.CustomException;
-import jpa.study.common.exception.ErrorCode;
 import jpa.study.user.application.domain.User;
-import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static jakarta.persistence.FetchType.LAZY;
 import static jakarta.persistence.GenerationType.IDENTITY;
@@ -31,6 +32,9 @@ public class Post extends BaseEntity {
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "user_id")
     private User user;
+
+    @OneToMany(mappedBy = "post")
+    List<Like> likes = new ArrayList<>();
 
     public Post(String content, User user) {
         this.content = content;

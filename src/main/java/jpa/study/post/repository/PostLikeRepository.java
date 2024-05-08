@@ -1,13 +1,13 @@
 package jpa.study.post.repository;
 
 import jpa.study.post.application.domain.Post;
-import jpa.study.post.application.domain.PostLike;
+import jpa.study.post.application.domain.Like;
 import jpa.study.user.application.domain.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
 
-public interface PostLikeRepository extends JpaRepository<PostLike, Long> {
+public interface PostLikeRepository extends JpaRepository<Like, Long> {
 
-    Boolean existByUserAndPost(User user, Post post);
+    Optional<Like> findByUserAndPost(User user, Post post);
 }

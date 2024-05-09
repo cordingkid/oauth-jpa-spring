@@ -26,6 +26,9 @@ public class CustomPostRepositoryImpl implements CustomPostRepository {
                 .selectFrom(post)
                 .join(post.user, user).fetchJoin()
                 .leftJoin(like).on(post.id.eq(like.id))
+                .where(
+                        post.user.isDelete.eq(false)
+                )
                 .limit(pageable.getPageSize() + 1)
                 .orderBy(post.lastModifiedBy.desc())
                 .fetch();

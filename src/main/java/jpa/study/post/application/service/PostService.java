@@ -5,7 +5,7 @@ import jpa.study.post.application.domain.Post;
 import jpa.study.post.application.dto.PostResponse;
 import jpa.study.post.presentation.dto.PostUpdateRequest;
 import jpa.study.post.presentation.dto.PostWriteRequest;
-import jpa.study.post.repository.PostLikeRepository;
+import jpa.study.post.repository.LikeRepository;
 import jpa.study.post.repository.PostRepository;
 import jpa.study.user.application.domain.User;
 import jpa.study.user.repository.UserRepository;
@@ -24,7 +24,7 @@ public class PostService {
 
     private final PostRepository postRepository;
     private final UserRepository userRepository;
-    private final PostLikeRepository likeRepository;
+    private final LikeRepository likeRepository;
 
     @Transactional(readOnly = true)
     public PostResponse getPostList(Pageable pageable) {

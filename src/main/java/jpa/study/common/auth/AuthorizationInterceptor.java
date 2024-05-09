@@ -21,6 +21,7 @@ public class AuthorizationInterceptor implements HandlerInterceptor {
             new UriAndMethod("/auth/kakao", GET),
             new UriAndMethod("/login/oauth2/code/kakao", GET),
             new UriAndMethod("/hello", GET),
+            new UriAndMethod("/posts", GET),
     };
 
     private final AuthContext authContext;

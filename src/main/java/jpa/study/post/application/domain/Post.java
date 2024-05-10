@@ -7,6 +7,7 @@ import jpa.study.user.application.domain.User;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.ColumnDefault;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,6 +37,10 @@ public class Post extends BaseEntity {
     @OneToMany(mappedBy = "post")
     List<Like> likes = new ArrayList<>();
 
+    @Column(nullable = false)
+    @ColumnDefault(value = "0")
+    private int viewCount;
+
     public Post(String content, User user) {
         this.content = content;
         this.user = user;
@@ -50,5 +55,9 @@ public class Post extends BaseEntity {
 
     public void updatePost(String content) {
         this.content = content;
+    }
+
+    public void increasedViews(){
+        viewCount++;
     }
 }

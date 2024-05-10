@@ -10,6 +10,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 
 import java.util.List;
+import java.util.Optional;
 
 import static jpa.study.post.application.domain.QLike.like;
 import static jpa.study.post.application.domain.QPost.post;
@@ -27,11 +28,25 @@ public class CustomPostRepositoryImpl implements CustomPostRepository {
                 .join(post.user, user).fetchJoin()
                 .leftJoin(like).on(post.id.eq(like.id))
                 .where(
-                        post.user.isDelete.eq(false)
+                        user.isDelete.eq(false)
                 )
                 .limit(pageable.getPageSize() + 1)
                 .orderBy(post.lastModifiedBy.desc())
                 .fetch();
         return PaginationUtils.checkEndPage(pageable, fetch);
+    }
+
+    @Override
+    public Optional<Post> findPost(Long postId) {
+        Post fetchOne = queryFactory
+                .selectFrom(post)
+                .join(post.user, user).fetchJoin()
+                .leftJoin(like).on(post.id.eq(like.id))
+                .where(
+                        post.id.eq(postId),
+                        user.isDelete.eq(false)
+                )
+                .fetchOne();
+        return Optional.ofNullable(fetchOne);
     }
 }

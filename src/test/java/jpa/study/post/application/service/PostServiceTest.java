@@ -1,6 +1,7 @@
 package jpa.study.post.application.service;
 
 import jpa.study.post.application.domain.Post;
+import jpa.study.post.application.dto.PostResponse;
 import jpa.study.post.presentation.dto.PostUpdateRequest;
 import jpa.study.post.presentation.dto.PostWriteRequest;
 import jpa.study.post.repository.PostRepository;
@@ -66,6 +67,19 @@ class PostServiceTest {
             PostUpdateRequest updateRequest = new PostUpdateRequest(post.getId(), "게시글 수정입니다.");
 
             postService.updatePost(userId, post.getId(), updateRequest);
+        }
+
+        @Test
+        void 게시물을_조회한다() {
+            User user = userInit();
+            userRepository.save(user);
+            Long userId = user.getId();
+            PostWriteRequest request = new PostWriteRequest("게시글 작성입니다.");
+            Long postId = postService.writePost(userId, request);
+
+            PostResponse post = postService.getPost(postId);
+
+            System.out.println("post = " + post);
         }
     }
 

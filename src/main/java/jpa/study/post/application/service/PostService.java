@@ -1,8 +1,11 @@
 package jpa.study.post.application.service;
 
+import jpa.study.common.exception.CustomException;
+import jpa.study.common.exception.ErrorCode;
 import jpa.study.post.application.domain.Like;
 import jpa.study.post.application.domain.Post;
 import jpa.study.post.application.dto.PostResponse;
+import jpa.study.post.application.dto.PostsResponse;
 import jpa.study.post.presentation.dto.PostUpdateRequest;
 import jpa.study.post.presentation.dto.PostWriteRequest;
 import jpa.study.post.repository.LikeRepository;
@@ -17,6 +20,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
+import static jpa.study.common.exception.ErrorCode.RESOURCE_NOT_FOUND;
+
 @Service
 @Transactional
 @RequiredArgsConstructor
@@ -27,17 +32,26 @@ public class PostService {
     private final LikeRepository likeRepository;
 
     @Transactional(readOnly = true)
-    public PostResponse getPostList(Pageable pageable) {
+    public PostsResponse getPostList(Pageable pageable) {
         Slice<Post> result = postRepository.getPostList(pageable);
-        return PostResponse.of(result.getContent(), result.hasNext());
+        return PostsResponse.of(result.getContent(), result.hasNext());
     }
 
-    public void writePost(Long userId, PostWriteRequest request) {
+    public PostResponse getPost(Long postId) {
+        Post found = postRepository.findPost(postId)
+                .orElseThrow(() -> new CustomException(RESOURCE_NOT_FOUND));
+        found.increasedViews();
+        return PostResponse.of(found);
+    }
+
+    public Long writePost(Long userId, PostWriteRequest request) {
         User user = userRepository.getById(userId);
 
         Post post = new Post(request.getContent(), user);
 
         postRepository.save(post);
+
+        return post.getId();
     }
 
     public void updatePost(Long userId, Long postId, PostUpdateRequest request) {

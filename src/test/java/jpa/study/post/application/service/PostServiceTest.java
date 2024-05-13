@@ -7,6 +7,7 @@ import jpa.study.post.presentation.dto.PostWriteRequest;
 import jpa.study.post.repository.PostRepository;
 import jpa.study.user.application.domain.User;
 import jpa.study.user.repository.UserRepository;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -17,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
@@ -80,6 +82,9 @@ class PostServiceTest {
             PostResponse post = postService.getPost(postId);
 
             System.out.println("post = " + post);
+            assertThat(post).isNotNull();
+            assertThat(post.userId()).isEqualTo(userId);
+            assertThat(post.postId()).isEqualTo(postId);
         }
     }
 

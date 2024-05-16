@@ -30,7 +30,8 @@ public record PostsResponse(
             String content,
             Long userId,
             String nickname,
-            int likeCount
+            int likeCount,
+            int commentCount
     ){
 
         public static PostListInfo of(Post post) {
@@ -40,6 +41,7 @@ public record PostsResponse(
                     .userId(post.getUser().getId())
                     .nickname(post.getUser().getNickname())
                     .likeCount(post.getLikes().size())
+                    .commentCount(post.getComments().size())
                     .build();
         }
     }

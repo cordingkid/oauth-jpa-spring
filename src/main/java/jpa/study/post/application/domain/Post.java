@@ -41,6 +41,9 @@ public class Post extends BaseEntity {
     @ColumnDefault(value = "0")
     private int viewCount;
 
+    @OneToMany(mappedBy = "post")
+    List<Comment> comments = new ArrayList<>();
+
     public Post(String content, User user) {
         this.content = content;
         this.user = user;

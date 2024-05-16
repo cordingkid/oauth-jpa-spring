@@ -79,6 +79,9 @@ class PostServiceTest {
             PostWriteRequest request = new PostWriteRequest("게시글 작성입니다.");
             Long postId = postService.writePost(userId, request);
 
+            // 좋아요
+            postService.likePost(userId, postId);
+
             PostResponse post = postService.getPost(postId);
 
             System.out.println("post = " + post);

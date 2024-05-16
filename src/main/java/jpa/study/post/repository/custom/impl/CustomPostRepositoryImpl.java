@@ -3,6 +3,7 @@ package jpa.study.post.repository.custom.impl;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jpa.study.common.util.PaginationUtils;
 import jpa.study.post.application.domain.Post;
+import jpa.study.post.application.domain.QComment;
 import jpa.study.post.repository.custom.CustomPostRepository;
 import jpa.study.user.application.domain.QUser;
 import lombok.RequiredArgsConstructor;
@@ -12,6 +13,7 @@ import org.springframework.data.domain.Slice;
 import java.util.List;
 import java.util.Optional;
 
+import static jpa.study.post.application.domain.QComment.comment;
 import static jpa.study.post.application.domain.QLike.like;
 import static jpa.study.post.application.domain.QPost.post;
 import static jpa.study.user.application.domain.QUser.user;
@@ -26,7 +28,8 @@ public class CustomPostRepositoryImpl implements CustomPostRepository {
         List<Post> fetch = queryFactory
                 .selectFrom(post)
                 .join(post.user, user).fetchJoin()
-                .leftJoin(like).on(post.id.eq(like.id))
+                .leftJoin(like).on(post.id.eq(like.post.id))
+                .leftJoin(comment).on(post.id.eq(comment.post.id))
                 .where(
                         user.isDelete.eq(false)
                 )
@@ -41,7 +44,8 @@ public class CustomPostRepositoryImpl implements CustomPostRepository {
         Post fetchOne = queryFactory
                 .selectFrom(post)
                 .join(post.user, user).fetchJoin()
-                .leftJoin(like).on(post.id.eq(like.id))
+                .leftJoin(like).on(post.id.eq(like.post.id))
+                .leftJoin(comment).on(post.id.eq(comment.post.id))
                 .where(
                         post.id.eq(postId),
                         user.isDelete.eq(false)

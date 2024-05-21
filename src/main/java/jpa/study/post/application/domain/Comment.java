@@ -2,10 +2,13 @@ package jpa.study.post.application.domain;
 
 import jakarta.persistence.*;
 import jpa.study.common.BaseEntity;
+import jpa.study.common.exception.CustomException;
+import jpa.study.common.exception.ErrorCode;
 import jpa.study.user.application.domain.User;
 import lombok.*;
 
 import static jakarta.persistence.FetchType.LAZY;
+import static jpa.study.common.exception.ErrorCode.INVALID_ACCESS;
 import static lombok.AccessLevel.PROTECTED;
 
 @Entity
@@ -33,5 +36,16 @@ public class Comment extends BaseEntity {
         this.content = content;
         this.post = post;
         this.user = user;
+    }
+
+    public void validateUpdateAuthority(User loginUser) {
+        if (user.equals(loginUser)) {
+            return;
+        }
+        throw new CustomException(INVALID_ACCESS);
+    }
+
+    public void updateComment(String content) {
+        this.content = content;
     }
 }

@@ -2,6 +2,7 @@ package jpa.study.post.application.service;
 
 import jpa.study.post.application.domain.Comment;
 import jpa.study.post.application.domain.Post;
+import jpa.study.post.presentation.dto.CommentUpdateRequest;
 import jpa.study.post.presentation.dto.CommentWriteRequest;
 import jpa.study.post.repository.CommentRepository;
 import jpa.study.post.repository.PostRepository;
@@ -35,7 +36,16 @@ public class CommentService {
         return comment.getId();
     }
 
-//    public Long updateComment() {
-//
-//    }
+    public Long updateComment(Long userId, Long postId, CommentUpdateRequest request) {
+        User user = userRepository.getById(userId);
+        Post post = postRepository.getById(postId);
+
+        Comment found = commentRepository.getById(request.getCommentId());
+
+        found.validateUpdateAuthority(user);
+
+        found.updateComment(request.getContent());
+
+        return found.getId();
+    }
 }

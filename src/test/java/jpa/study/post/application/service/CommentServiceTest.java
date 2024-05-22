@@ -1,6 +1,8 @@
 package jpa.study.post.application.service;
 
+import jakarta.persistence.EntityManager;
 import jpa.study.post.application.domain.Comment;
+import jpa.study.post.presentation.dto.CommentUpdateRequest;
 import jpa.study.post.presentation.dto.CommentWriteRequest;
 import jpa.study.post.presentation.dto.PostWriteRequest;
 import jpa.study.post.repository.CommentRepository;
@@ -38,6 +40,9 @@ class CommentServiceTest {
     @Autowired
     CommentRepository commentRepository;
 
+    @Autowired
+    EntityManager em;
+
     @Test
     void 댓글을_작성한다() {
         User user = userInit();
@@ -57,6 +62,36 @@ class CommentServiceTest {
 
         System.out.println("comment.getContent() = " + comment.getContent());
         assertThat(comment).isNotNull();
+    }
+
+    @Test
+    public void 댓글을_수정한다() throws Exception{
+        User user = userInit();
+        userRepository.save(user);
+
+        Long userId = user.getId();
+
+        PostWriteRequest request = new PostWriteRequest("게시글 작성입니다.");
+
+        Long postId = postService.writePost(userId, request);
+
+        CommentWriteRequest commentRequest = new CommentWriteRequest(userId, postId, "댓글 작성");
+
+        Long commentId = commentService.writeComment(userId, postId, commentRequest);
+
+        em.flush();
+        em.clear();
+
+        String 변경_내용 = "댓글 변경입니다람쥐~";
+
+        commentService.updateComment(
+                userId, postId, new CommentUpdateRequest(commentId, userId, postId, 변경_내용)
+        );
+
+        Comment result = commentRepository.getById(commentId);
+
+        assertThat(result.getContent()).isEqualTo(변경_내용);
+        System.out.println("result = " + result.getContent());
     }
 
     private User userInit() {

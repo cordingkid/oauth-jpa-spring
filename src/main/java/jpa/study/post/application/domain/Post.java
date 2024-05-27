@@ -1,7 +1,7 @@
 package jpa.study.post.application.domain;
 
 import jakarta.persistence.*;
-import jpa.study.common.BaseEntity;
+import jpa.study.common.BaseTimeEntity;
 import jpa.study.common.exception.CustomException;
 import jpa.study.user.application.domain.User;
 import lombok.AllArgsConstructor;
@@ -21,7 +21,7 @@ import static lombok.AccessLevel.*;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor(access = PROTECTED)
-public class Post extends BaseEntity {
+public class Post extends BaseTimeEntity {
 
     @Id @GeneratedValue(strategy = IDENTITY)
     @Column(name = "post_id")

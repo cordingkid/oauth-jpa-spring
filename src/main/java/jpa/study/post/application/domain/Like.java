@@ -1,7 +1,7 @@
 package jpa.study.post.application.domain;
 
 import jakarta.persistence.*;
-import jpa.study.common.BaseEntity;
+import jpa.study.common.BaseTimeEntity;
 import jpa.study.user.application.domain.User;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -16,7 +16,7 @@ import static lombok.AccessLevel.*;
 @Table(name = "likes")
 @AllArgsConstructor
 @NoArgsConstructor(access = PROTECTED)
-public class Like extends BaseEntity {
+public class Like extends BaseTimeEntity {
 
     @Id @GeneratedValue
     @Column(name = "like_id")

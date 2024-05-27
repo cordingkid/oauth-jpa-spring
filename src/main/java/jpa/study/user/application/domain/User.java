@@ -1,9 +1,8 @@
 package jpa.study.user.application.domain;
 
 import jakarta.persistence.*;
-import jpa.study.common.BaseEntity;
+import jpa.study.common.BaseTimeEntity;
 import jpa.study.common.exception.CustomException;
-import jpa.study.common.exception.ErrorCode;
 import lombok.*;
 
 import static jakarta.persistence.GenerationType.IDENTITY;
@@ -16,7 +15,7 @@ import static lombok.AccessLevel.*;
 @AllArgsConstructor
 @Table(name = "users")
 @NoArgsConstructor(access = PROTECTED)
-public class User extends BaseEntity {
+public class User extends BaseTimeEntity {
 
     @Id @GeneratedValue(strategy = IDENTITY)
     @Column(name = "user_id")

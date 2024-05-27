@@ -1,9 +1,8 @@
 package jpa.study.post.application.domain;
 
 import jakarta.persistence.*;
-import jpa.study.common.BaseEntity;
+import jpa.study.common.BaseTimeEntity;
 import jpa.study.common.exception.CustomException;
-import jpa.study.common.exception.ErrorCode;
 import jpa.study.user.application.domain.User;
 import lombok.*;
 
@@ -15,7 +14,7 @@ import static lombok.AccessLevel.PROTECTED;
 @Getter
 @NoArgsConstructor(access = PROTECTED)
 @AllArgsConstructor
-public class Comment extends BaseEntity {
+public class Comment extends BaseTimeEntity {
 
     @Id @GeneratedValue
     @Column(name = "comment_id")

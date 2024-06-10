@@ -3,6 +3,7 @@ package jpa.study.user.application.domain;
 import jakarta.persistence.*;
 import jpa.study.common.BaseTimeEntity;
 import jpa.study.common.exception.CustomException;
+import jpa.study.user.application.vo.BackgroundImageUrl;
 import lombok.*;
 
 import static jakarta.persistence.GenerationType.IDENTITY;
@@ -31,6 +32,9 @@ public class User extends BaseTimeEntity {
     private String nickname;
 //    @Embedded
 //    private Nickname nickname;
+
+    @Embedded
+    private BackgroundImageUrl backgroundImageUrl;
 
     @Column(nullable = false)
     private String kakaoAccessToken;
